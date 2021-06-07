@@ -1,0 +1,56 @@
+{
+    "name": "laravel-enso/users",
+    "type": "library",
+    "description": "",
+    "authors": [
+        {
+            "name": "Adrian Ocneanu",
+            "email": "aocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Mihai Ocneanu",
+            "email": "mihai.ocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Ionut Pirvulescu",
+            "email": "ionut.pirvulescu1@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Vlad Chiovianu",
+            "email": "vlad.chioivanu@earthlink.ro",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "laravel-enso",
+        "enso-users",
+        "vue-bulma",
+        "vue-spa"
+    ],
+    "homepage": "https://www.laravel-enso.com",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelEnso\\Users\\": "src/",
+            "LaravelEnso\\Users\\Database\\Factories\\": "database/factories/",
+            "LaravelEnso\\Users\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\Users\\AppServiceProvider",
+                "LaravelEnso\\Users\\AuthServiceProvider"
+            ]
+        }
+    }
+}
