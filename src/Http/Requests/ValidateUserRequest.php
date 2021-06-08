@@ -23,9 +23,9 @@ class ValidateUserRequest extends FormRequest
             'password' => [
                 'nullable',
                 'confirmed',
-                Password::min(Config::get('enso.auth.password.minLength'))
-                    ->minUpperCase(Config::get('enso.auth.password.minUpperCase'))
-                    ->hasMinNumeric(Config::get('enso.auth.password.minUpperCase')),
+                Password::defaults(),
+                fn ($value, $fail) => $this
+                    ->distinctPassword($value, $fail),
             ],
             'is_active' => 'boolean',
         ];
@@ -34,11 +34,10 @@ class ValidateUserRequest extends FormRequest
     public function withValidator($validator)
     {
         if ($this->filled('password')) {
-            $validator->after(fn ($validator) => (new PasswordValidator(
-                $this,
-                $validator,
-                $this->route('user')
-            ))->handle());
+            if ($this->route('user')->currentPasswordIs($this->get('password'))) {
+                $validator->errors()
+                    ->add('password', __('You cannot use the existing password'));
+            }
         }
     }
 
@@ -50,5 +49,14 @@ class ValidateUserRequest extends FormRequest
     protected function personUnique()
     {
         return Rule::unique('users', 'person_id')->ignore($this->get('person_id'));
+    }
+
+    private function distinctPassword($value, $fail)
+    {
+        if ($this->filled('password')) {
+            if ($this->route('user')->currentPasswordIs($value)) {
+                $fail(__('You cannot use the existing password'));
+            }
+        }
     }
 }

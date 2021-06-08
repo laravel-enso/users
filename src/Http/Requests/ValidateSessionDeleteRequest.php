@@ -4,7 +4,7 @@ namespace LaravelEnso\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Core\Models\Session;
+use LaravelEnso\Users\Models\Session;
 
 class ValidateSessionDeleteRequest extends FormRequest
 {
