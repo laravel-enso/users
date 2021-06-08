@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Core\Exceptions\UserConflict;
+use LaravelEnso\Core\Models\Login;
 use LaravelEnso\Core\Models\Preference;
 use LaravelEnso\Core\Services\DefaultPreferences;
 use LaravelEnso\Core\Traits\HasPassword;

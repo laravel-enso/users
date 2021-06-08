@@ -36,7 +36,8 @@
     ],
     "homepage": "https://www.laravel-enso.com",
     "require": {
-        "php": ">=7.4.0"
+        "php": ">=7.4.0",
+        "laravel-enso/user-groups": "^1.0"
     },
     "autoload": {
         "psr-4": {

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use LaravelEnso\Users\Http\Controllers\Administration\User\Token\Create;
-use LaravelEnso\Users\Http\Controllers\Administration\User\Token\Destroy;
-use LaravelEnso\Users\Http\Controllers\Administration\User\Token\Index;
-use LaravelEnso\Users\Http\Controllers\Administration\User\Token\Store;
+use LaravelEnso\Users\Http\Controllers\Token\Create;
+use LaravelEnso\Users\Http\Controllers\Token\Destroy;
+use LaravelEnso\Users\Http\Controllers\Token\Index;
+use LaravelEnso\Users\Http\Controllers\Token\Store;
 
 Route::prefix('token')
     ->as('tokens.')

@@ -1,17 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use LaravelEnso\Users\Http\Controllers\User\Create;
-use LaravelEnso\Users\Http\Controllers\User\Destroy;
-use LaravelEnso\Users\Http\Controllers\User\Edit;
-use LaravelEnso\Users\Http\Controllers\User\ExportExcel;
-use LaravelEnso\Users\Http\Controllers\User\InitTable;
-use LaravelEnso\Users\Http\Controllers\User\Options;
-use LaravelEnso\Users\Http\Controllers\User\ResetPassword;
-use LaravelEnso\Users\Http\Controllers\User\Show;
-use LaravelEnso\Users\Http\Controllers\User\Store;
-use LaravelEnso\Users\Http\Controllers\User\TableData;
-use LaravelEnso\Users\Http\Controllers\User\Update;
+use LaravelEnso\Users\Http\Controllers\Create;
+use LaravelEnso\Users\Http\Controllers\Destroy;
+use LaravelEnso\Users\Http\Controllers\Edit;
+use LaravelEnso\Users\Http\Controllers\ExportExcel;
+use LaravelEnso\Users\Http\Controllers\InitTable;
+use LaravelEnso\Users\Http\Controllers\Options;
+use LaravelEnso\Users\Http\Controllers\ResetPassword;
+use LaravelEnso\Users\Http\Controllers\Show;
+use LaravelEnso\Users\Http\Controllers\Store;
+use LaravelEnso\Users\Http\Controllers\TableData;
+use LaravelEnso\Users\Http\Controllers\Update;
 
 Route::prefix('users')
     ->as('users.')
