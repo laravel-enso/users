@@ -23,8 +23,6 @@ class UserTest extends TestCase
     {
         parent::setUp();
 
-        // $this->withoutExceptionHandling();
-
         $this->seed()
             ->actingAs(User::first());
 

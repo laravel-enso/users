@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelEnso\Calendar\Models\Event;
+use LaravelEnso\Companies\Models\Company;
 use LaravelEnso\Core\Exceptions\UserConflict;
 use LaravelEnso\Core\Models\Login;
 use LaravelEnso\Core\Models\Preference;
@@ -34,24 +35,16 @@ use LaravelEnso\UserGroups\Models\UserGroup;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference
 {
-    use ActiveState,
-        AvoidsDeletionConflicts,
-        CascadesMorphMap,
-        HasApiTokens,
-        HasFactory,
-        HasPassword,
-        IsPerson,
-        Notifiable,
-        Abilities,
-        Rememberable,
-        TableCache;
+    use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap, HasApiTokens, HasFactory;
+    use HasPassword, IsPerson, Notifiable, Abilities, Rememberable, TableCache;
 
     protected $hidden = ['password', 'remember_token', 'password_updated_at'];
 
     protected $guarded = ['id', 'password'];
 
     protected $casts = [
-        'is_active' => 'boolean', 'person_id' => 'int', 'group_id' => 'int', 'role_id' => 'int',
+        'is_active' => 'boolean', 'person_id' => 'int',
+        'group_id' => 'int', 'role_id' => 'int',
     ];
 
     protected $dates = ['password_updated_at'];
@@ -69,11 +62,6 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function company()
-    {
-        return $this->person->company();
     }
 
     public function events()
@@ -96,29 +84,29 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         return $this->hasOne(Preference::class);
     }
 
-    public function isAdmin()
+    public function company(): ?Company
+    {
+        return $this->person->company();
+    }
+
+    public function isAdmin(): bool
     {
         return $this->role_id === App::make(Roles::class)::Admin;
     }
 
-    public function isSupervisor()
+    public function isSupervisor(): bool
     {
         return $this->role_id === App::make(Roles::class)::Supervisor;
     }
 
-    public function belongsToAdminGroup()
+    public function belongsToAdminGroup(): bool
     {
         return $this->group_id === App::make(UserGroups::class)::Admin;
     }
 
-    public function isPerson(Person $person)
+    public function isPerson(Person $person): bool
     {
         return $this->person_id === $person->id;
-    }
-
-    public function resetPreferences()
-    {
-        $this->storePreferences($this->defaultPreferences());
     }
 
     public function preferences()
@@ -132,17 +120,27 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         return $preferences;
     }
 
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->lang();
     }
 
-    public function lang()
+    public function lang(): string
     {
         return $this->preferences()->global->lang;
     }
 
-    public function storeGlobalPreferences($global)
+    public function scopeAdmins(Builder $builder): Builder
+    {
+        return $builder->whereRoleId(App::make(Roles::class)::Admin);
+    }
+
+    public function scopeSupervisors(Builder $builder): Builder
+    {
+        return $builder->whereRoleId(App::make(Roles::class)::Supervisor);
+    }
+
+    public function storeGlobalPreferences($global): void
     {
         $preferences = $this->preferences();
         $preferences->global = $global;
@@ -150,7 +148,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         $this->storePreferences($preferences);
     }
 
-    public function storeLocalPreferences($route, $value)
+    public function storeLocalPreferences($route, $value): void
     {
         $preferences = $this->preferences();
         $preferences->local->$route = $value;
@@ -175,33 +173,28 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
         try {
             return parent::delete();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             throw UserConflict::hasActivity();
         }
     }
 
-    public function scopeAdmins(Builder $builder): Builder
+    public function resetPreferences(): void
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Admin);
+        $this->storePreferences($this->defaultPreferences());
     }
 
-    public function scopeSupervisors(Builder $builder): Builder
+    private function defaultPreferences(): Preference
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Supervisor);
+        return new Preference([
+            'value' => DefaultPreferences::data(),
+        ]);
     }
 
-    private function storePreferences($preferences)
+    private function storePreferences($preferences): void
     {
         $this->preference()->updateOrCreate(
             ['user_id' => $this->id],
             ['value' => $preferences]
         );
-    }
-
-    private function defaultPreferences()
-    {
-        return new Preference([
-            'value' => DefaultPreferences::data(),
-        ]);
     }
 }

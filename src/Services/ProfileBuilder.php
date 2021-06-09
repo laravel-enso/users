@@ -12,11 +12,8 @@ class ProfileBuilder
 
     private const ActionRating = 20;
 
-    private User $user;
-
-    public function __construct(User $user)
+    public function __construct(private User $user)
     {
-        $this->user = $user;
     }
 
     public function set(): void
@@ -34,7 +31,6 @@ class ProfileBuilder
     public function build(): void
     {
         $this->user->loginCount = $this->user->logins()->count();
-        $this->user->person->gender = $this->user->person->gender();
         $this->user->actionLogCount = $this->user->actionLogs()->count();
         $this->user->daysSinceMember = max(Carbon::parse($this->user->created_at)->diffInDays(), 1);
         $this->user->rating = $this->rating();

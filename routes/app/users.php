@@ -32,6 +32,6 @@ Route::prefix('users')
 
         Route::post('{user}/resetPassword', ResetPassword::class)->name('resetPassword');
 
-        require 'token/tokens.php';
-        require 'session/sessions.php';
+        require __DIR__.'/token/tokens.php';
+        require __DIR__.'/session/sessions.php';
     });

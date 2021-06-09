@@ -37,6 +37,18 @@
     "homepage": "https://www.laravel-enso.com",
     "require": {
         "php": ">=7.4.0",
+        "laravel-enso/avatars": "^3.0",
+        "laravel-enso/calendar": "^2.0",
+        "laravel-enso/companies": "^3.0",
+        "laravel-enso/dynamic-methods": "^2.0",
+        "laravel-enso/files": "^4.0",
+        "laravel-enso/forms": "^4.0",
+        "laravel-enso/helpers": "^2.0",
+        "laravel-enso/people": "^3.0",
+        "laravel-enso/rememberable": "^3.0",
+        "laravel-enso/roles": "^4.0",
+        "laravel-enso/select": "^4.0",
+        "laravel-enso/tables": "^4.0",
         "laravel-enso/user-groups": "^1.0"
     },
     "autoload": {

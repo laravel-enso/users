@@ -5,6 +5,7 @@ namespace LaravelEnso\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use LaravelEnso\Core\Rules\DistinctPassword;
 
 class ValidateUserRequest extends FormRequest
 {
@@ -24,21 +25,10 @@ class ValidateUserRequest extends FormRequest
                 'nullable',
                 'confirmed',
                 Password::defaults(),
-                fn ($field, $password, $fail) => $this
-                    ->distinctPassword($password, $fail),
+                new DistinctPassword($this->route('user')),
             ],
             'is_active' => 'boolean',
         ];
-    }
-
-    public function withValidator($validator)
-    {
-        if ($this->filled('password')) {
-            if ($this->route('user')->currentPasswordIs($this->get('password'))) {
-                $validator->errors()
-                    ->add('password', __('You cannot use the existing password'));
-            }
-        }
     }
 
     protected function emailUnique()
@@ -49,14 +39,5 @@ class ValidateUserRequest extends FormRequest
     protected function personUnique()
     {
         return Rule::unique('users', 'person_id')->ignore($this->get('person_id'));
-    }
-
-    private function distinctPassword($password, $fail)
-    {
-        if ($this->filled('password')) {
-            if ($this->route('user')->currentPasswordIs($password)) {
-                $fail(__('You cannot use the existing password'));
-            }
-        }
     }
 }

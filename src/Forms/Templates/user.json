@@ -2,7 +2,7 @@
     "routePrefix": "administration.users",
     "sections": [
         {
-            "columns": "custom",
+            "columns": 2,
             "divider": true,
             "title": "Personal Info",
             "fields": [
@@ -10,7 +10,6 @@
                     "label": "",
                     "name": "person_id",
                     "value": "",
-                    "column": 2,
                     "meta": {
                         "hidden": true,
                         "type": "input",
@@ -18,21 +17,9 @@
                     }
                 },
                 {
-                    "label": "Title",
-                    "name": "title",
-                    "value": null,
-                    "column": 2,
-                    "meta": {
-                        "readonly": true,
-                        "type": "select",
-                        "options": "LaravelEnso\\People\\Enums\\Titles"
-                    }
-                },
-                {
                     "label": "Name",
                     "name": "name",
                     "value": "",
-                    "column": 6,
                     "meta": {
                         "readonly": true,
                         "type": "input",
@@ -43,7 +30,6 @@
                     "label": "Appellative",
                     "name": "appellative",
                     "value": "",
-                    "column": 4,
                     "meta": {
                         "readonly": true,
                         "type": "input",

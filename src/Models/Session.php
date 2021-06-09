@@ -10,9 +10,9 @@ class Session extends Model
 {
     public $incrementing = false;
 
-    public function scopeFor(Builder $builder, User $user)
+    public function scopeFor(Builder $builder, User $user): Builder
     {
-        $builder->whereUserId($user->id);
+        return $builder->whereUserId($user->id);
     }
 
     public function agent(): Agent
