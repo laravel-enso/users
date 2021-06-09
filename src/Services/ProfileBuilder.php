@@ -18,12 +18,10 @@ class ProfileBuilder
 
     public function set(): void
     {
-        $this->user->load(
-            'person:id,name,title,appellative,birthday,phone',
-            'group:id,name',
-            'role:id,name',
-            'avatar:id,user_id'
-        );
+        $this->user->load([
+            'person:id,name,appellative,birthday,phone',
+            'group:id,name', 'role:id,name', 'avatar:id,user_id',
+        ]);
 
         $this->build();
     }
