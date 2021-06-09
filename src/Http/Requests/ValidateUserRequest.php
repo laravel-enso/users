@@ -33,11 +33,13 @@ class ValidateUserRequest extends FormRequest
 
     protected function emailUnique()
     {
-        return Rule::unique('people', 'email')->ignore($this->get('person_id'));
+        return Rule::unique('people', 'email')
+            ->ignore($this->get('person_id'));
     }
 
     protected function personUnique()
     {
-        return Rule::unique('users', 'person_id')->ignore($this->get('person_id'));
+        return Rule::unique('users', 'person_id')
+            ->ignore($this->get('person_id'));
     }
 }

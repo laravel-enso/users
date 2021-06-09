@@ -8,7 +8,7 @@ use LaravelEnso\Users\Models\User;
 
 class ProfileBuilder
 {
-    private const LoginRating = 80; //TODO refactor in config
+    private const LoginRating = 80;
 
     private const ActionRating = 20;
 
