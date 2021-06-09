@@ -1,7 +1,8 @@
 {
     "name": "laravel-enso/users",
     "type": "library",
-    "description": "",
+    "license": "MIT",
+    "description": "Users dependency for Laravel Enso",
     "authors": [
         {
             "name": "Adrian Ocneanu",
@@ -12,12 +13,6 @@
         {
             "name": "Mihai Ocneanu",
             "email": "mihai.ocneanu@gmail.com",
-            "homepage": "https://laravel-enso.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Ionut Pirvulescu",
-            "email": "ionut.pirvulescu1@gmail.com",
             "homepage": "https://laravel-enso.com",
             "role": "Developer"
         },
