@@ -40,6 +40,6 @@ class ValidateUserRequest extends FormRequest
     protected function personUnique()
     {
         return Rule::unique('users', 'person_id')
-            ->ignore($this->get('person_id'));
+            ->ignore($this->route('user'));
     }
 }
