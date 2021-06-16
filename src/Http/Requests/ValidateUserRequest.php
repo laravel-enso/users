@@ -21,12 +21,7 @@ class ValidateUserRequest extends FormRequest
             'group_id' => 'required|exists:user_groups,id',
             'role_id' => 'required|exists:roles,id',
             'email' => ['email', 'required', $this->emailUnique()],
-            'password' => [
-                'nullable',
-                'confirmed',
-                Password::defaults(),
-                new DistinctPassword($this->route('user')),
-            ],
+            'password' => $this->password(),
             'is_active' => 'boolean',
         ];
     }
@@ -41,5 +36,16 @@ class ValidateUserRequest extends FormRequest
     {
         return Rule::unique('users', 'person_id')
             ->ignore($this->route('user'));
+    }
+
+    private function password(): array
+    {
+        $rules = ['nullable', 'confirmed', Password::defaults()];
+
+        if ($this->route('user')) {
+            $rules[] = new DistinctPassword($this->route('user'));
+        }
+
+        return $rules;
     }
 }
