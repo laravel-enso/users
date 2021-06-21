@@ -4,7 +4,7 @@ namespace LaravelEnso\Users\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use LaravelEnso\Roles\Models\Role;
-use LaravelEnso\UserGroups\Enums\UserGroups;
+use LaravelEnso\UserGroups\Models\UserGroup;
 use LaravelEnso\Users\Models\User as Model;
 
 class User
@@ -33,7 +33,7 @@ class User
     {
         return ! $targetUser->isAdmin()
             && $user->isSupervisor()
-            && $targetUser->group_id !== UserGroups::Admin;
+            && UserGroup::visible()->whereId($targetUser->group_id)->exists();
     }
 
     public function changeRole(Model $user, Model $targetUser)
