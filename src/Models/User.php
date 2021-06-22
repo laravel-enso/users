@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
-use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Companies\Models\Company;
 use LaravelEnso\Core\Exceptions\UserConflict;
 use LaravelEnso\Core\Models\Login;
@@ -62,11 +61,6 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function events()
-    {
-        return $this->belongsToMany(Event::class);
     }
 
     public function files()

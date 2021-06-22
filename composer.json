@@ -32,7 +32,6 @@
     "homepage": "https://www.laravel-enso.com",
     "require": {
         "laravel-enso/avatars": "^3.0",
-        "laravel-enso/calendar": "^2.0",
         "laravel-enso/companies": "^3.0",
         "laravel-enso/core": "^7.0",
         "laravel-enso/dynamic-methods": "^2.0",
