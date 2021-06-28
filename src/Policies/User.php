@@ -2,15 +2,12 @@
 
 namespace LaravelEnso\Users\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
 use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\UserGroups\Models\UserGroup;
 use LaravelEnso\Users\Models\User as Model;
 
 class User
 {
-    use HandlesAuthorization;
-
     public function before($user)
     {
         if ($user->isAdmin()) {
@@ -45,19 +42,28 @@ class User
 
     public function changePassword(Model $user, Model $targetUser)
     {
-        return $user->id === $targetUser->id
-            || $this->isSuperior($user, $targetUser);
+        return $this->allowed($user, $targetUser);
+    }
+
+    public function handleToken(Model $user, Model $targetUser)
+    {
+        return $this->allowed($user, $targetUser);
     }
 
     public function resetPassword(Model $user, Model $targetUser)
     {
-        return $user->id === $targetUser->id
-            || $this->isSuperior($user, $targetUser);
+        return $this->allowed($user, $targetUser);
     }
 
-    public function sessions(Model $user, Model $targetUser)
+    public function handleSession(Model $user, Model $targetUser)
     {
-        return $user->id === $targetUser->id;
+        return $this->allowed($user, $targetUser);
+    }
+
+    protected function allowed(Model $user, Model $targetUser)
+    {
+        return $user->id === $targetUser->id
+            || $this->isSuperior($user, $targetUser);
     }
 
     protected function isSuperior(Model $user, Model $targetUser): bool
