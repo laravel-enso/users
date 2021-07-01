@@ -23,6 +23,7 @@ use LaravelEnso\Helpers\Contracts\Activatable;
 use LaravelEnso\Helpers\Traits\ActiveState;
 use LaravelEnso\Helpers\Traits\AvoidsDeletionConflicts;
 use LaravelEnso\Helpers\Traits\CascadesMorphMap;
+use LaravelEnso\Helpers\Traits\CascadesObservers;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\People\Traits\IsPerson;
 use LaravelEnso\Rememberable\Traits\Rememberable;
@@ -34,8 +35,9 @@ use LaravelEnso\UserGroups\Models\UserGroup;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference
 {
-    use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap, HasApiTokens, HasFactory;
-    use HasPassword, IsPerson, Notifiable, Abilities, Rememberable, TableCache;
+    use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap, CascadesObservers;
+    use HasApiTokens, HasFactory, HasPassword, IsPerson, Notifiable, Abilities;
+    use Rememberable, TableCache;
 
     protected $hidden = ['password', 'remember_token', 'password_updated_at'];
 
