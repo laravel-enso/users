@@ -176,7 +176,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     public function resetPreferences(): void
     {
-        $this->storePreferences($this->defaultPreferences());
+        $this->storePreferences($this->defaultPreferences()->value);
     }
 
     private function defaultPreferences(): Preference
