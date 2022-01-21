@@ -179,18 +179,18 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         $this->storePreferences($this->defaultPreferences()->value);
     }
 
-    private function defaultPreferences(): Preference
-    {
-        return new Preference([
-            'value' => DefaultPreferences::data(),
-        ]);
-    }
-
-    private function storePreferences($preferences): void
+    public function storePreferences($preferences): void
     {
         $this->preference()->updateOrCreate(
             ['user_id' => $this->id],
             ['value' => $preferences]
         );
+    }
+
+    private function defaultPreferences(): Preference
+    {
+        return new Preference([
+            'value' => DefaultPreferences::data(),
+        ]);
     }
 }
