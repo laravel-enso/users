@@ -21,9 +21,9 @@ class Store extends Controller
             ->sendResetPasswordEmail();
 
         return [
-            'message' => __('The user was successfully created'),
+            'message'  => __('The user was successfully created'),
             'redirect' => 'administration.users.edit',
-            'param' => ['user' => $user->id],
+            'param'    => ['user' => $user->id],
         ];
     }
 }

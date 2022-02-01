@@ -12,7 +12,7 @@ class Store extends Controller
     {
         return [
             'message' => 'Token was generated successfully',
-            'token' => $user->createToken($request->get('name'))->plainTextToken,
+            'token'   => $user->createToken($request->get('name'))->plainTextToken,
         ];
     }
 }

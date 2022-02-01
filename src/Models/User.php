@@ -35,9 +35,18 @@ use LaravelEnso\UserGroups\Models\UserGroup;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference
 {
-    use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap, CascadesObservers;
-    use HasApiTokens, HasFactory, HasPassword, IsPerson, Notifiable, Abilities;
-    use Rememberable, TableCache;
+    use ActiveState;
+    use AvoidsDeletionConflicts;
+    use CascadesMorphMap;
+    use CascadesObservers;
+    use HasApiTokens;
+    use HasFactory;
+    use HasPassword;
+    use IsPerson;
+    use Notifiable;
+    use Abilities;
+    use Rememberable;
+    use TableCache;
 
     protected $hidden = ['password', 'remember_token', 'password_updated_at'];
 
@@ -45,7 +54,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     protected $casts = [
         'is_active' => 'boolean', 'person_id' => 'int',
-        'group_id' => 'int', 'role_id' => 'int',
+        'group_id'  => 'int', 'role_id' => 'int',
     ];
 
     protected $dates = ['password_updated_at'];

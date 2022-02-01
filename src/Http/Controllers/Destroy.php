@@ -18,7 +18,7 @@ class Destroy extends Controller
         $user->erase($request->boolean('person'));
 
         return [
-            'message' => __('The user was successfully deleted'),
+            'message'  => __('The user was successfully deleted'),
             'redirect' => 'administration.users.index',
         ];
     }

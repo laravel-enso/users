@@ -14,7 +14,10 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use Datatable, DestroyForm, EditForm, RefreshDatabase;
+    use Datatable;
+    use DestroyForm;
+    use EditForm;
+    use RefreshDatabase;
 
     private $permissionGroup = 'administration.users';
     private $testModel;
@@ -54,7 +57,7 @@ class UserTest extends TestCase
             ->assertJsonStructure(['message'])
             ->assertJsonFragment([
                 'redirect' => 'administration.users.edit',
-                'param' => ['user' => $user->id],
+                'param'    => ['user' => $user->id],
             ]);
 
         Notification::assertSentTo($user, ResetPassword::class);
@@ -65,7 +68,7 @@ class UserTest extends TestCase
     {
         $this->testModel->save();
 
-        $this->testModel->is_active = ! $this->testModel->is_active;
+        $this->testModel->is_active = !$this->testModel->is_active;
 
         $this->patch(
             route('administration.users.update', $this->testModel->id, false),

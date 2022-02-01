@@ -18,10 +18,10 @@ class ValidateUserRequest extends FormRequest
     {
         return [
             'person_id' => ['exists:people,id', $this->personUnique()],
-            'group_id' => 'required|exists:user_groups,id',
-            'role_id' => 'required|exists:roles,id',
-            'email' => ['email', 'required', $this->emailUnique()],
-            'password' => $this->password(),
+            'group_id'  => 'required|exists:user_groups,id',
+            'role_id'   => 'required|exists:roles,id',
+            'email'     => ['email', 'required', $this->emailUnique()],
+            'password'  => $this->password(),
             'is_active' => 'boolean',
         ];
     }
