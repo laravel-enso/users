@@ -196,7 +196,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         );
     }
 
-    private function defaultPreferences(): Preference
+    protected function defaultPreferences(): Preference
     {
         return new Preference([
             'value' => DefaultPreferences::data(),
