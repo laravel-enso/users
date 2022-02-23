@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use LaravelEnso\Core\Rules\DistinctPassword;
 
-class ValidateUserRequest extends FormRequest
+class ValidateUser extends FormRequest
 {
     public function authorize()
     {

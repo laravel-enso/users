@@ -4,19 +4,19 @@ namespace LaravelEnso\Users\Forms\Builders;
 
 use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Forms\Services\Form;
-use LaravelEnso\Users\Models\User;
+use LaravelEnso\Users\Models\User as Model;
 
-class UserForm
+class User
 {
-    protected const TemplatePath = __DIR__.'/../Templates/user.json';
-
     protected const Tooltip = 'Personal information can only be edited via the person form';
+
+    private const TemplatePath = __DIR__ . '/../Templates/user.json';
 
     protected Form $form;
 
     public function __construct()
     {
-        $this->form = new Form(static::TemplatePath);
+        $this->form = new Form($this->templatePath());
     }
 
     public function create($person)
@@ -28,7 +28,7 @@ class UserForm
             ->create();
     }
 
-    public function edit(User $user)
+    public function edit(Model $user)
     {
         $this->common($user->person);
 
@@ -50,5 +50,10 @@ class UserForm
             ->value('appellative', $person->appellative)
             ->meta('name', 'tooltip', self::Tooltip)
             ->meta('appellative', 'tooltip', self::Tooltip);
+    }
+
+    protected function templatePath(): string
+    {
+        return self::TemplatePath;
     }
 }

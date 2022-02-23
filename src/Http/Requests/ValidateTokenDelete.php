@@ -5,7 +5,7 @@ namespace LaravelEnso\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ValidateTokenRequest extends FormRequest
+class ValidateTokenDelete extends FormRequest
 {
     public function authorize()
     {
@@ -16,7 +16,7 @@ class ValidateTokenRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'id' => 'required|exists:personal_access_tokens,id',
         ];
     }
 }

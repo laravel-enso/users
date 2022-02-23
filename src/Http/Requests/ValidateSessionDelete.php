@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Users\Models\Session;
 
-class ValidateSessionDeleteRequest extends FormRequest
+class ValidateSessionDelete extends FormRequest
 {
     public function authorize()
     {
