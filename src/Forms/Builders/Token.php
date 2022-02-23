@@ -7,7 +7,7 @@ use LaravelEnso\Users\Models\User;
 
 class Token
 {
-    private const TemplatePath = __DIR__ . '/../Templates/token.json';
+    private const TemplatePath = __DIR__.'/../Templates/token.json';
 
     protected Form $form;
 

@@ -10,7 +10,7 @@ class User
 {
     protected const Tooltip = 'Personal information can only be edited via the person form';
 
-    private const TemplatePath = __DIR__ . '/../Templates/user.json';
+    private const TemplatePath = __DIR__.'/../Templates/user.json';
 
     protected Form $form;
 
