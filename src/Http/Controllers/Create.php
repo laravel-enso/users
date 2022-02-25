@@ -4,11 +4,11 @@ namespace LaravelEnso\Users\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\People\Models\Person;
-use LaravelEnso\Users\Forms\Builders\UserForm;
+use LaravelEnso\Users\Forms\Builders\User;
 
 class Create extends Controller
 {
-    public function __invoke(Person $person, UserForm $form)
+    public function __invoke(Person $person, User $form)
     {
         return ['form' => $form->create($person)];
     }

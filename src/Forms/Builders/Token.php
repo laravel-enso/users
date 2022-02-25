@@ -5,15 +5,15 @@ namespace LaravelEnso\Users\Forms\Builders;
 use LaravelEnso\Forms\Services\Form;
 use LaravelEnso\Users\Models\User;
 
-class TokenForm
+class Token
 {
-    protected const TemplatePath = __DIR__.'/../Templates/token.json';
+    private const TemplatePath = __DIR__.'/../Templates/token.json';
 
     protected Form $form;
 
     public function __construct()
     {
-        $this->form = new Form(self::TemplatePath);
+        $this->form = new Form($this->templatePath());
     }
 
     public function create(User $user)
@@ -21,5 +21,10 @@ class TokenForm
         return $this->form
             ->routeParams(['user' => $user->id])
             ->create();
+    }
+
+    protected function templatePath(): string
+    {
+        return self::TemplatePath;
     }
 }

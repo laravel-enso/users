@@ -7,14 +7,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
-use LaravelEnso\Users\Http\Requests\ValidateUserRequest;
+use LaravelEnso\Users\Http\Requests\ValidateUser;
 use LaravelEnso\Users\Models\User;
 
 class Update extends Controller
 {
     use AuthorizesRequests;
 
-    public function __invoke(ValidateUserRequest $request, User $user)
+    public function __invoke(ValidateUser $request, User $user)
     {
         $this->authorize('handle', $user);
 

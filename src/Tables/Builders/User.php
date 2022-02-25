@@ -4,17 +4,17 @@ namespace LaravelEnso\Users\Tables\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use LaravelEnso\Tables\Contracts\Table;
-use LaravelEnso\Users\Models\User;
+use LaravelEnso\Users\Models\User as Model;
 
-class UserTable implements Table
+class User implements Table
 {
-    protected const TemplatePath = __DIR__.'/../Templates/users.json';
+    private const TemplatePath = __DIR__.'/../Templates/users.json';
 
     protected $query;
 
     public function query(): Builder
     {
-        return User::with('avatar:id,user_id')->selectRaw('
+        return Model::with('avatar:id,user_id')->selectRaw('
             users.id, user_groups.name as "group", people.name, people.appellative,
             people.phone, users.email, roles.name as role, users.is_active,
             users.created_at, users.person_id
@@ -25,6 +25,6 @@ class UserTable implements Table
 
     public function templatePath(): string
     {
-        return static::TemplatePath;
+        return self::TemplatePath;
     }
 }
