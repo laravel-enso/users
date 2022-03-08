@@ -32,6 +32,7 @@ use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Tables\Traits\TableCache;
 use LaravelEnso\UserGroups\Enums\UserGroups;
 use LaravelEnso\UserGroups\Models\UserGroup;
+use stdClass;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference
 {
@@ -114,15 +115,10 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         return $this->person_id === $person->id;
     }
 
-    public function preferences()
+    public function preferences(): stdClass
     {
-        $preferences = $this->preference
-            ? $this->preference->value
-            : $this->defaultPreferences()->value;
-
-        unset($this->preference);
-
-        return $preferences;
+        return Preference::cacheGetBy('user_id', $this->id)->value
+            ?? $this->defaultPreferences()->value;
     }
 
     public function preferredLocale(): string
