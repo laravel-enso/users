@@ -36,18 +36,9 @@ use stdClass;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference
 {
-    use ActiveState;
-    use AvoidsDeletionConflicts;
-    use CascadesMorphMap;
-    use CascadesObservers;
-    use HasApiTokens;
-    use HasFactory;
-    use HasPassword;
-    use IsPerson;
-    use Notifiable;
-    use Abilities;
-    use Rememberable;
-    use TableCache;
+    use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap;
+    use CascadesObservers, HasApiTokens, HasFactory, HasPassword, IsPerson;
+    use Notifiable, Abilities, Rememberable, TableCache;
 
     protected $hidden = ['password', 'remember_token', 'password_updated_at'];
 
