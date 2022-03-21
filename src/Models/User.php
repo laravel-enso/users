@@ -96,6 +96,11 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         return $this->role_id === App::make(Roles::class)::Supervisor;
     }
 
+    public function isSuperior(): bool
+    {
+        return $this->isAdmin() || $this->isSupervisor();
+    }
+
     public function belongsToAdminGroup(): bool
     {
         return $this->group_id === App::make(UserGroups::class)::Admin;
