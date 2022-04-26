@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\Users\Models;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelEnso\Companies\Models\Company;
@@ -90,14 +88,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     public function canAccess(string $route): bool
     {
-        $key = "role-permissions:{$this->role_id}";
-
-        $permissions = Cache::get($key)
-            ?? Cache::remember($key, Carbon::now()->addHour(), fn () => $this
-                ->role()->with('permissions:id,name')->first()
-                ->permissions->pluck('name'));
-
-        return $permissions->contains($route);
+        return Role::permissionList($this->role_id)->contains($route);
     }
 
     public function isAdmin(): bool
