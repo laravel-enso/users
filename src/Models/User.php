@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelEnso\Companies\Models\Company;
@@ -17,6 +16,7 @@ use LaravelEnso\Core\Models\Login;
 use LaravelEnso\Core\Models\Preference;
 use LaravelEnso\Core\Services\DefaultPreferences;
 use LaravelEnso\Core\Traits\HasPassword;
+use LaravelEnso\DynamicMethods\Contracts\DynamicMethods;
 use LaravelEnso\DynamicMethods\Traits\Abilities;
 use LaravelEnso\Files\Models\File;
 use LaravelEnso\Helpers\Contracts\Activatable;
@@ -27,14 +27,14 @@ use LaravelEnso\Helpers\Traits\CascadesObservers;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\People\Traits\IsPerson;
 use LaravelEnso\Rememberable\Traits\Rememberable;
-use LaravelEnso\Roles\Enums\Roles;
+use LaravelEnso\Roles\Enums\Role as RoleEnum;
 use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Tables\Traits\TableCache;
-use LaravelEnso\UserGroups\Enums\UserGroups;
+use LaravelEnso\UserGroups\Enums\UserGroup as GroupEnum;
 use LaravelEnso\UserGroups\Models\UserGroup;
 use stdClass;
 
-class User extends Authenticatable implements Activatable, HasLocalePreference
+class User extends Authenticatable implements Activatable, HasLocalePreference, DynamicMethods
 {
     use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap;
     use CascadesObservers, HasApiTokens, HasFactory, HasPassword, IsPerson;
@@ -46,7 +46,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     protected $casts = [
         'is_active' => 'boolean', 'person_id' => 'int',
-        'group_id'  => 'int', 'role_id' => 'int',
+        'group_id' => 'int', 'role_id' => 'int',
     ];
 
     protected $dates = ['password_updated_at'];
@@ -93,12 +93,12 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     public function isAdmin(): bool
     {
-        return $this->role_id === App::make(Roles::class)::Admin;
+        return RoleEnum::from($this->role_id)->isAdmin();
     }
 
     public function isSupervisor(): bool
     {
-        return $this->role_id === App::make(Roles::class)::Supervisor;
+        return RoleEnum::from($this->role_id)->isSupervisor();
     }
 
     public function isSuperior(): bool
@@ -108,7 +108,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     public function belongsToAdminGroup(): bool
     {
-        return $this->group_id === App::make(UserGroups::class)::Admin;
+        return GroupEnum::from($this->group_id)->isAdmin();
     }
 
     public function isPerson(Person $person): bool
@@ -134,12 +134,12 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     public function scopeAdmins(Builder $builder): Builder
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Admin);
+        return $builder->whereRoleId(RoleEnum::Admin);
     }
 
     public function scopeSupervisors(Builder $builder): Builder
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Supervisor);
+        return $builder->whereRoleId(RoleEnum::Supervisor);
     }
 
     public function storeGlobalPreferences($global): void
