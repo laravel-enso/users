@@ -15,10 +15,10 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'person_id' => Person::factory(),
-            'group_id'  => UserGroup::factory(),
-            'email'     => fn ($attributes) => Person::find($attributes['person_id'])->email,
-            'role_id'   => Role::factory(),
+            'person_id' => Person::factory()->test(),
+            'group_id' => UserGroup::factory(),
+            'email' => fn ($attributes) => Person::find($attributes['person_id'])->email,
+            'role_id' => Role::factory(),
             'is_active' => $this->faker->boolean,
         ];
     }
