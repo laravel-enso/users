@@ -46,7 +46,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
 
     protected $casts = [
         'is_active' => 'boolean', 'person_id' => 'int',
-        'group_id'  => 'int', 'role_id' => 'int',
+        'group_id' => 'int', 'role_id' => 'int',
     ];
 
     protected $dates = ['password_updated_at'];
@@ -114,6 +114,11 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
     public function isPerson(Person $person): bool
     {
         return $this->person_id === $person->id;
+    }
+
+    public function appellative(): string
+    {
+        return $this->person->appellative();
     }
 
     public function preferences(): stdClass
