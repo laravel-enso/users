@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Users\Models;
 
+use Closure;
 use Exception;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +18,7 @@ use LaravelEnso\Core\Models\Login;
 use LaravelEnso\Core\Models\Preference;
 use LaravelEnso\Core\Services\DefaultPreferences;
 use LaravelEnso\Core\Traits\HasPassword;
+use LaravelEnso\DynamicMethods\Contracts\DynamicMethods;
 use LaravelEnso\DynamicMethods\Traits\Abilities;
 use LaravelEnso\Files\Models\File;
 use LaravelEnso\Helpers\Contracts\Activatable;
@@ -34,7 +36,7 @@ use LaravelEnso\UserGroups\Enums\UserGroups;
 use LaravelEnso\UserGroups\Models\UserGroup;
 use stdClass;
 
-class User extends Authenticatable implements Activatable, HasLocalePreference
+class User extends Authenticatable implements Activatable, HasLocalePreference, DynamicMethods
 {
     use ActiveState, AvoidsDeletionConflicts, CascadesMorphMap;
     use CascadesObservers, HasApiTokens, HasFactory, HasPassword, IsPerson;
@@ -203,5 +205,10 @@ class User extends Authenticatable implements Activatable, HasLocalePreference
         return new Preference([
             'value' => DefaultPreferences::data(),
         ]);
+    }
+
+    public static function resolveMethodUsing(string $name, Closure $method): void
+    {
+
     }
 }
