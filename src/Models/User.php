@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\Users\Models;
 
-use Closure;
 use Exception;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
