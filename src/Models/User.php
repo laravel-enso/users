@@ -206,9 +206,4 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
             'value' => DefaultPreferences::data(),
         ]);
     }
-
-    public static function resolveMethodUsing(string $name, Closure $method): void
-    {
-
-    }
 }
