@@ -48,7 +48,8 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
     protected $casts = [
         'is_active' => 'boolean', 'person_id' => 'int',
         'group_id' => 'int', 'role_id' => 'int',
-        'password_updated_at' => 'date'
+        'password_updated_at' => 'date',
+        'password' => 'hashed',
     ];
 
     public function person()
