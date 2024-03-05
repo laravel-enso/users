@@ -10,7 +10,7 @@ use LaravelEnso\Users\Models\User;
 
 class UserSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $person = $this->person();
 
