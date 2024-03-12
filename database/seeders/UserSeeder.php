@@ -18,7 +18,6 @@ class UserSeeder extends Seeder
             'person_id' => $person->id,
             'group_id' => UserGroup::whereName('Administrators')->first()->id,
             'email' => $person->email,
-            'password' => bcrypt('password'),
             'role_id' => Role::whereName('admin')->first()->id,
             'is_active' => true,
         ])->generateAvatar();
