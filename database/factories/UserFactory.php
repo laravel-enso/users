@@ -12,7 +12,9 @@ class UserFactory extends Factory
 {
     protected $model = User::class;
 
-    public function definition()
+    protected static ?string $password;
+
+    public function definition(): array
     {
         return [
             'person_id' => Person::factory()->test(),
