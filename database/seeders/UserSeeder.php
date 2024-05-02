@@ -20,12 +20,12 @@ class UserSeeder extends Seeder
             'email' => $person->email,
             'role_id' => Role::whereName('admin')->first()->id,
             'is_active' => true,
-        ])->generateAvatar();
+        ]);
 
         $password = '$2y$10$06TrEefmqWBO7xghm2PUzeF/O0wcawFUv8TKYq.NF6Dsa0Pnmd/F2';
-
-        $user->setAttribute('password', $password);
+        $user->getAttributes()['password'] = $password;
         $user->save();
+        $user->generateAvatar();
     }
 
     private function person(): Person
