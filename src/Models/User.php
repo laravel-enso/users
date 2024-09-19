@@ -45,13 +45,6 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
 
     protected $guarded = ['id', 'password'];
 
-    protected $casts = [
-        'is_active' => 'boolean', 'person_id' => 'int',
-        'group_id' => 'int', 'role_id' => 'int',
-        'password_updated_at' => 'date',
-        'password' => 'hashed',
-    ];
-
     public function person()
     {
         return $this->belongsTo(Person::class);
@@ -204,5 +197,15 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
         return new Preference([
             'value' => DefaultPreferences::data(),
         ]);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean', 'person_id' => 'int',
+            'group_id' => 'int', 'role_id' => 'int',
+            'password_updated_at' => 'date',
+            'password' => 'hashed',
+        ];
     }
 }
