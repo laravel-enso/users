@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         ]);
 
         $password = '$2y$10$06TrEefmqWBO7xghm2PUzeF/O0wcawFUv8TKYq.NF6Dsa0Pnmd/F2';
-        $user->setAttribute('password', $password);
+        $user->getAttributes()['password'] = $password;
         $user->save();
         $user->generateAvatar();
     }
