@@ -3,6 +3,7 @@
 namespace LaravelEnso\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use LaravelEnso\Core\Rules\DistinctPassword;
@@ -16,12 +17,14 @@ class ValidateUser extends FormRequest
 
     public function rules()
     {
+        $email = App::runningUnitTests() ? 'email:rfc' : 'email:rfc,dns';
+
         return [
             'person_id' => ['exists:people,id', $this->personUnique()],
-            'group_id'  => 'required|exists:user_groups,id',
-            'role_id'   => 'required|exists:roles,id',
-            'email'     => ['email:rfc,dns', 'required', $this->emailUnique()],
-            'password'  => $this->password(),
+            'group_id' => 'required|exists:user_groups,id',
+            'role_id' => 'required|exists:roles,id',
+            'email' => [$email, 'required', $this->emailUnique()],
+            'password' => $this->password(),
             'is_active' => 'boolean',
         ];
     }

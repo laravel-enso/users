@@ -44,7 +44,7 @@ class UserTest extends TestCase
     public function can_store_user()
     {
         Notification::fake();
-
+        \Log::info($this->testModel);
         $response = $this->post(
             route('administration.users.store', [], false),
             $this->testModel->toArray()
@@ -57,7 +57,7 @@ class UserTest extends TestCase
             ->assertJsonStructure(['message'])
             ->assertJsonFragment([
                 'redirect' => 'administration.users.edit',
-                'param'    => ['user' => $user->id],
+                'param' => ['user' => $user->id],
             ]);
 
         Notification::assertSentTo($user, ResetPassword::class);
@@ -68,7 +68,7 @@ class UserTest extends TestCase
     {
         $this->testModel->save();
 
-        $this->testModel->is_active = !$this->testModel->is_active;
+        $this->testModel->is_active = ! $this->testModel->is_active;
 
         $this->patch(
             route('administration.users.update', $this->testModel->id, false),
