@@ -28,10 +28,10 @@ use LaravelEnso\Helpers\Traits\CascadesObservers;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\People\Traits\IsPerson;
 use LaravelEnso\Rememberable\Traits\Rememberable;
-use LaravelEnso\Roles\Enums\Roles;
+use LaravelEnso\Roles\Enums\Role as RoleEnum;
 use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Tables\Traits\TableCache;
-use LaravelEnso\UserGroups\Enums\UserGroups;
+use LaravelEnso\UserGroups\Enums\UserGroup as UserGroupEnum;
 use LaravelEnso\UserGroups\Models\UserGroup;
 use stdClass;
 
@@ -87,12 +87,12 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
 
     public function isAdmin(): bool
     {
-        return $this->role_id === App::make(Roles::class)::Admin;
+        return $this->role_id === RoleEnum::Admin->value;
     }
 
     public function isSupervisor(): bool
     {
-        return $this->role_id === App::make(Roles::class)::Supervisor;
+        return $this->role_id === RoleEnum::Supervisor->value;
     }
 
     public function isSuperior(): bool
@@ -102,7 +102,7 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
 
     public function belongsToAdminGroup(): bool
     {
-        return $this->group_id === App::make(UserGroups::class)::Admin;
+        return $this->group_id === UserGroupEnum::Admin->value;
     }
 
     public function isPerson(Person $person): bool
@@ -133,12 +133,12 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
 
     public function scopeAdmins(Builder $builder): Builder
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Admin);
+        return $builder->whereRoleId(RoleEnum::Admin->value);
     }
 
     public function scopeSupervisors(Builder $builder): Builder
     {
-        return $builder->whereRoleId(App::make(Roles::class)::Supervisor);
+        return $builder->whereRoleId(RoleEnum::Supervisor->value);
     }
 
     public function storeGlobalPreferences($global): void
