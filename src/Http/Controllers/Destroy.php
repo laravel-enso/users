@@ -15,10 +15,10 @@ class Destroy extends Controller
     {
         $this->authorize('handle', $user);
 
-        $user->erase($request->boolean('person'));
+        $user->delete();
 
         return [
-            'message'  => __('The user was successfully deleted'),
+            'message' => __('The user was successfully deleted'),
             'redirect' => 'administration.users.index',
         ];
     }
