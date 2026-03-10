@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelEnso\Companies\Models\Company;
 use LaravelEnso\Core\Exceptions\UserConflict;
 use LaravelEnso\Core\Models\Login;
-use LaravelEnso\Core\Models\Preference;
-use LaravelEnso\Core\Services\DefaultPreferences;
+use LaravelEnso\Core\Models\Preferences;
 use LaravelEnso\Core\Traits\HasPassword;
 use LaravelEnso\DynamicMethods\Contracts\DynamicMethods;
 use LaravelEnso\DynamicMethods\Traits\Abilities;
@@ -33,7 +31,6 @@ use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Tables\Traits\TableCache;
 use LaravelEnso\UserGroups\Enums\UserGroups;
 use LaravelEnso\UserGroups\Models\UserGroup;
-use stdClass;
 
 class User extends Authenticatable implements Activatable, HasLocalePreference, DynamicMethods
 {
@@ -70,9 +67,9 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
         return $this->hasMany(Login::class);
     }
 
-    public function preference()
+    public function preferences()
     {
-        return $this->hasOne(Preference::class);
+        return $this->hasOne(Preferences::class);
     }
 
     public function company(): ?Company
@@ -115,20 +112,9 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
         return $this->person->appellative();
     }
 
-    public function preferences(): stdClass
-    {
-        return Preference::cacheGetBy('user_id', $this->id)->value
-            ?? $this->defaultPreferences()->value;
-    }
-
     public function preferredLocale(): string
     {
-        return $this->lang();
-    }
-
-    public function lang(): string
-    {
-        return $this->preferences()->global->lang;
+        return $this->preferences->lang();
     }
 
     public function scopeAdmins(Builder $builder): Builder
@@ -141,29 +127,9 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
         return $builder->whereRoleId(App::make(Roles::class)::Supervisor);
     }
 
-    public function storeGlobalPreferences($global): void
+    public function initPreferences(): void
     {
-        $preferences = $this->preferences();
-        $preferences->global = $global;
-
-        $this->storePreferences($preferences);
-    }
-
-    public function storeLocalPreferences($route, $value): void
-    {
-        $preferences = $this->preferences();
-        $preferences->local->$route = $value;
-
-        $this->storePreferences($preferences);
-    }
-
-    public function erase(bool $person = false)
-    {
-        if ($person) {
-            return DB::transaction(fn () => tap($this)->delete()->person->delete());
-        }
-
-        return $this->delete();
+        Preferences::factory()->forUser($this)->create();
     }
 
     public function delete()
@@ -179,19 +145,6 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
         }
     }
 
-    public function resetPreferences(): void
-    {
-        $this->storePreferences($this->defaultPreferences()->value);
-    }
-
-    public function storePreferences($preferences): void
-    {
-        $this->preference()->updateOrCreate(
-            ['user_id' => $this->id],
-            ['value' => $preferences]
-        );
-    }
-
     protected function casts(): array
     {
         return [
@@ -200,12 +153,5 @@ class User extends Authenticatable implements Activatable, HasLocalePreference, 
             'password_updated_at' => 'date',
             'password' => 'hashed',
         ];
-    }
-
-    protected function defaultPreferences(): Preference
-    {
-        return new Preference([
-            'value' => DefaultPreferences::data(),
-        ]);
     }
 }
