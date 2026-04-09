@@ -17,13 +17,13 @@ class Store extends Controller
 
         $this->authorize('handle', $user);
 
-        tap($user)->save()
-            ->sendResetPasswordEmail();
+        $user->save();
+        $user->sendResetPasswordEmail();
 
         return [
-            'message'  => __('The user was successfully created'),
+            'message' => __('The user was successfully created'),
             'redirect' => 'administration.users.edit',
-            'param'    => ['user' => $user->id],
+            'param' => ['user' => $user->id],
         ];
     }
 }

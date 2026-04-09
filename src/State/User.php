@@ -8,15 +8,15 @@ use LaravelEnso\Users\Http\Resources\User as Resource;
 
 class User implements ProvidesState
 {
-    public function mutation(): string
+    public function store(): string
     {
-        return 'setUser';
+        return 'app';
     }
 
-    public function state(): mixed
+    public function state(): array
     {
         Auth::user()->load(['person', 'avatar', 'role', 'group']);
 
-        return new Resource(Auth::user());
+        return ['user' => (new Resource(Auth::user()))->resolve()];
     }
 }

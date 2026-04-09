@@ -45,7 +45,7 @@ class UserTest extends TestCase
     public function can_store_user()
     {
         Notification::fake();
-        \Log::info($this->testModel);
+
         $response = $this->post(
             route('administration.users.store', [], false),
             $this->testModel->toArray()
