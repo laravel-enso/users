@@ -5,14 +5,7 @@
         "excel",
         "show",
         "edit",
-        {
-            "type": "row",
-            "icon": "trash-alt",
-            "class": "is-row-button",
-            "event": "destroy",
-            "routeSuffix": "destroy",
-            "slot": "destroy-button"
-        }
+        "destroy"
     ],
     "filters": [
         {

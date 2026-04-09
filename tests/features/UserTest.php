@@ -11,6 +11,7 @@ use LaravelEnso\Forms\TestTraits\EditForm;
 use LaravelEnso\Tables\Traits\Tests\Datatable;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class UserTest extends TestCase
 {
@@ -32,7 +33,7 @@ class UserTest extends TestCase
         $this->testModel = User::factory()->make();
     }
 
-    /** @test */
+    #[Test]
     public function can_view_create_form()
     {
         $this->get(route($this->permissionGroup.'.create', [$this->testModel->person->id], false))
@@ -40,11 +41,11 @@ class UserTest extends TestCase
             ->assertJsonStructure(['form']);
     }
 
-    /** @test */
+    #[Test]
     public function can_store_user()
     {
         Notification::fake();
-        \Log::info($this->testModel);
+
         $response = $this->post(
             route('administration.users.store', [], false),
             $this->testModel->toArray()
@@ -63,7 +64,7 @@ class UserTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_user()
     {
         $this->testModel->save();
@@ -79,7 +80,7 @@ class UserTest extends TestCase
         $this->assertEquals($this->testModel->is_active, $this->testModel->fresh()->is_active);
     }
 
-    /** @test */
+    #[Test]
     public function get_option_list()
     {
         $this->testModel->is_active = true;
