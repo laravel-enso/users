@@ -36,14 +36,14 @@
         "laravel-enso/core": "^12.0",
         "laravel-enso/dynamic-methods": "^3.0",
         "laravel-enso/files": "^5.0",
-        "laravel-enso/forms": "^4.0",
-        "laravel-enso/helpers": "^3.0",
-        "laravel-enso/people": "^4.0",
-        "laravel-enso/rememberable": "^3.0",
+        "laravel-enso/forms": "^5.0",
+        "laravel-enso/helpers": "^4.0",
+        "laravel-enso/people": "^4.7.0",
+        "laravel-enso/rememberable": "^4.0",
         "laravel-enso/roles": "^5.0",
-        "laravel-enso/select": "^4.0",
-        "laravel-enso/tables": "^4.0",
-        "laravel-enso/user-groups": "^2.0"
+        "laravel-enso/select": "^5.0",
+        "laravel-enso/tables": "^5.0",
+        "laravel-enso/user-groups": "^2.4.0"
     },
     "autoload": {
         "psr-4": {
