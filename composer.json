@@ -2,7 +2,7 @@
     "name": "laravel-enso/users",
     "type": "library",
     "license": "MIT",
-    "description": "Users dependency for Laravel Enso",
+    "description": "User administration backend for Laravel Enso",
     "authors": [
         {
             "name": "Adrian Ocneanu",
@@ -29,7 +29,7 @@
         "vue-bulma",
         "vue-spa"
     ],
-    "homepage": "https://www.laravel-enso.com",
+    "homepage": "https://github.com/laravel-enso/users",
     "require": {
         "laravel-enso/avatars": "^4.5",
         "laravel-enso/companies": "^4.6",
