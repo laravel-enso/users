@@ -4,16 +4,19 @@ namespace LaravelEnso\Users\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use LaravelEnso\Core\Notifications\ResetPassword;
 use LaravelEnso\Forms\TestTraits\DestroyForm;
 use LaravelEnso\Forms\TestTraits\EditForm;
+use LaravelEnso\Permissions\Models\Permission;
+use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Tables\Traits\Tests\Datatable;
 use LaravelEnso\Users\Models\Session;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
@@ -105,6 +108,30 @@ class UserTest extends TestCase
             ->assertStatus(200)
             ->assertJsonPath('user.id', $this->testModel->id)
             ->assertJsonPath('user.person.id', $this->testModel->person_id);
+    }
+
+    #[Test]
+    public function can_access_uses_cached_permissions_without_loading_role(): void
+    {
+        $this->app->detectEnvironment(fn () => 'production');
+
+        $permission = Permission::factory()->create([
+            'name' => 'testing.users.cached-access',
+        ]);
+        $user = User::factory()->create();
+
+        $user->role->permissions()->sync([$permission->id]);
+        Role::permissionList($user->role_id);
+
+        $freshUser = User::query()->findOrFail($user->id);
+
+        DB::flushQueryLog();
+        DB::enableQueryLog();
+
+        $this->assertTrue($freshUser->canAccess($permission->name));
+        $this->assertSame([], DB::getQueryLog());
+
+        DB::disableQueryLog();
     }
 
     #[Test]
